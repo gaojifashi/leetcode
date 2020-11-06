@@ -1,35 +1,47 @@
 #include <iostream>
 #include <vector>
 #include <unordered_set>
+#include <algorithm>
 
 using namespace std;
 
 class Solution {
 public:
-    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
-        unordered_set<int> s;
-        vector<int> r;
-        if (nums1.size() < nums2.size()) {
-            s.insert(nums1.begin(), nums1.end());
-            for (unsigned int i = 0; i < nums2.size(); i++) {
-                unordered_set<int>::iterator it = s.find(nums2[i]);
-                if (it != s.end()) {
-                    r.push_back(*it);
-                    s.erase(it);
-                }
-            }
-        } else {
-            s.insert(nums2.begin(), nums2.end());
-            for (unsigned int i = 0; i < nums1.size(); i++) {
-                unordered_set<int>::iterator it = s.find(nums1[i]);
-                if (it != s.end()) {
-                    r.push_back(*it);
-                    s.erase(it);
-                }
-            }
-        }
+    // vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+    //     unordered_set<int> s;
+    //     vector<int> r;
+    //     if (nums1.size() < nums2.size()) {
+    //         s.insert(nums1.begin(), nums1.end());
+    //         for (unsigned int i = 0; i < nums2.size(); i++) {
+    //             unordered_set<int>::iterator it = s.find(nums2[i]);
+    //             if (it != s.end()) {
+    //                 r.push_back(*it);
+    //                 s.erase(it);
+    //             }
+    //         }
+    //     } else {
+    //         s.insert(nums2.begin(), nums2.end());
+    //         for (unsigned int i = 0; i < nums1.size(); i++) {
+    //             unordered_set<int>::iterator it = s.find(nums1[i]);
+    //             if (it != s.end()) {
+    //                 r.push_back(*it);
+    //                 s.erase(it);
+    //             }
+    //         }
+    //     }
 
-        return r;
+    //     return r;
+    // }
+
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+        std::sort(nums1.begin(), nums1.end());
+        std::sort(nums2.begin(), nums2.end());
+        vector<int> result;
+        std::set_intersection(nums1.begin(), nums1.end(), nums2.begin(), nums2.end(), 
+            std::back_inserter(result));
+        result.resize(std::distance(result.begin(), 
+            std::unique(result.begin(), result.end())));
+        return result;
     }
 };
 
